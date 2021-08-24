@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.banner5
     };
     int mIndex = 1;
+    boolean isRunning = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,26 +38,32 @@ public class MainActivity extends AppCompatActivity {
         mBtnStartBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CountDownTimer countDownTimer = new CountDownTimer(1200 , 1000) {
-                    @Override
-                    public void onTick(long l) {
-                        if (l >= 1000){
-                            if (mIndex >= mArrImages.length){
-                                mIndex = 0;
+                if (!isRunning){
+                    CountDownTimer countDownTimer = new CountDownTimer(1200 , 1000) {
+                        @Override
+                        public void onTick(long l) {
+                            isRunning = true;
+                            if (l >= 1000){
+                                if (mIndex >= mArrImages.length){
+                                    mIndex = 0;
+                                }
+                                mImg.setImageResource(mArrImages[mIndex]);
+                                mIndex++;
                             }
-                            mImg.setImageResource(mArrImages[mIndex]);
-                            mIndex++;
                         }
-                    }
 
-                    @Override
-                    public void onFinish() {
-                        this.start();
-                    }
-                };
-                countDownTimer.start();
+                        @Override
+                        public void onFinish() {
+                            this.start();
+                        }
+                    };
+                    countDownTimer.start();
+                }
+
             }
         });
+
+
 
 
 
